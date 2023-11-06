@@ -1,0 +1,8 @@
+
+path: C:/Users/tutuc/Dropbox/A - ARTHUR/6oSemestre/CV/pack4/spots_detector
+train: data/images/train  # train images (relative to 'path')
+val: data/images/train  # val images (relative to 'path')
+
+# Classes
+names:
+  0: spot
