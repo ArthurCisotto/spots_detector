@@ -8,7 +8,7 @@ VIDEOS_DIR = os.path.join('.', 'videos')
 
 video_path = os.path.join(VIDEOS_DIR, 'IMG_8361.mp4')
 video_path_wo_format = video_path.split('.mp4')[0]
-video_path_out = '{}_out.mp4'.format(video_path_wo_format)
+video_path_out = '{}_out_3.mp4'.format(video_path_wo_format)
 
 cap = cv2.VideoCapture(video_path)
 ret, frame = cap.read()
@@ -20,7 +20,7 @@ model_path = os.path.join('.', 'runs', 'detect', 'train6', 'weights', 'best.pt')
 # Load a model
 model = YOLO(model_path)  # load a custom model
 
-threshold = 0.5
+threshold = 0.1
 
 while ret:
 
