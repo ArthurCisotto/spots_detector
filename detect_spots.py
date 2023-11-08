@@ -7,6 +7,13 @@ import numpy as np
 
 from compare_imgs import *
 
+import glob
+
+
+# Erase all the content of the folder spots_detected
+files = glob.glob('spots_detected/*')
+for f in files:
+    os.remove(f)
 
 VIDEOS_DIR = os.path.join('.', 'videos')
 
