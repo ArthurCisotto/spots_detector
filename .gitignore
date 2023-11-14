@@ -1,2 +1,6 @@
 env
 data
+__pycache__
+*.pyc
+db.sqlite3
+backend/spots_detector/media
