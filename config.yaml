@@ -1,8 +1,17 @@
+# path: C:/Users/tutuc/Dropbox/A - ARTHUR/6oSemestre/CV/pack4/spots_detector
+# train: data/images/train  # train images (relative to 'path')
+# val: data/images/train  # val images (relative to 'path')
 
-path: C:/Users/tutuc/Dropbox/A - ARTHUR/6oSemestre/CV/pack4/spots_detector
-train: data/images/train  # train images (relative to 'path')
-val: data/images/train  # val images (relative to 'path')
+## Classes
+# names:
+#   0: spot
 
-# Classes
+###################################################################################
+
+path: C:/Users/thiag/spots_detector
+train: cvat_data/images
+val: cvat_data/images
+
 names:
-  0: spot
+  0: Beligno
+  1: Maligno

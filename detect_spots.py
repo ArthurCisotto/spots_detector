@@ -22,12 +22,12 @@ ret, frame = cap.read()
 H, W, _ = frame.shape
 out = cv2.VideoWriter(video_path_out, cv2.VideoWriter_fourcc(*'MP4V'), int(cap.get(cv2.CAP_PROP_FPS)), (W, H))
 
-model_path = os.path.join('.', 'runs', 'detect', 'train6', 'weights', 'best.pt')
+model_path = os.path.join('.', 'runs', 'detect', 'train7', 'weights', 'best.pt')
 
 # Load a model
 model = YOLO(model_path)  # load a custom model
 
-threshold = 0.1
+threshold = 0.5
 
 n = 0 # Number of imgs saved in spots_detected
 
