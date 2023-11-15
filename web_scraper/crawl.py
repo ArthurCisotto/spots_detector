@@ -1,10 +1,10 @@
 import sys
 import re
-
 from icrawler.builtin import GoogleImageCrawler
 
-all_urls = []
 
+# Get URL of the image
+all_urls = []
 def checkCrawlURL(log_input):
     # re-print captured log message
     print("INFO - downloader -", log_input.getMessage())
@@ -15,21 +15,40 @@ def checkCrawlURL(log_input):
        all_urls.append(res.group(1))
 
 
-
-
 def main():
 
-
-    google_crawler = GoogleImageCrawler(storage={'root_dir': 'crawled'})
+    google_crawler = GoogleImageCrawler(storage={'root_dir': 'web_scraper/crawled'})
     google_crawler.downloader.logger.addFilter(checkCrawlURL)
 
-    google_crawler.crawl(keyword='pig', max_num=20)
+    # Searches for malignant spots (TOTAL: 78 IMGS):
+        # skin cancer spots
+        # early stage skin cancer
+        # malignant skin spots
+        # skin cancer images
+        # câncer de pele imagens
+        # basal cell carcinoma
+        # squamous cell carcinoma
+        # merkel cell cancer
+        # melanoma
 
-    with open('links.txt', 'w') as f:
+    # Searches for benign spots (TOTAL: 64 IMGS):
+        # harmless dark spots on skin
+        # normal dark spots on skin
+        # common dark spots on skin
+        # freckles
+        # melasma
+        # lentigines
+        # seborrheic keratosis
+
+    google_crawler.crawl(keyword='melanoma', max_num=1000)
+
+    # Save the urls in a .txt
+    with open('web_scraper/links.txt', 'w') as f:
         for i in all_urls:
             f.write(i+"\n")
 
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(main())

@@ -3,43 +3,48 @@ import shutil
 import os
 import sys
 
-INPUT_DIR = 'crawled'
-OUTPUT_BASE = 'labeled'
-WINDOW_NAME = 'Pig? (y/*)'
+
+INPUT_DIR = 'web_scraper/crawled'
+OUTPUT_BASE = 'web_scraper/labeled'
+WINDOW_NAME = '(y/*)'
+
 
 MAX_HEIGHT = 500
 MAX_WIDTH = 500
 
+
 def main():
 
-    with open('links.txt', 'r') as f:
-            lista = f.readlines()
-
-    # print(lista)
+    with open('web_scraper/links.txt', 'r') as f:
+            list_urls = f.readlines()
 
     cv.namedWindow(WINDOW_NAME)
 
-    output_dir = os.path.join(OUTPUT_BASE, 'pig')
+    output_dir = os.path.join(OUTPUT_BASE, 'right')
 
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
     for name in sorted(os.listdir(INPUT_DIR)):
         input_path = os.path.join(INPUT_DIR, name)
+
+        # PRINT the url of the image
         int_name = int(name.split(".")[0])
-        link = lista[int_name - 1]
+        link = list_urls[int_name - 1]
+        print(link)
 
         image = cv.imread(input_path)
 
-        image = cv.putText(
-        img = image,
-        text = link,
-        org = (200, 200),
-        fontFace = cv.FONT_HERSHEY_DUPLEX,
-        fontScale = 3.0,
-        color = (0, 0, 0),
-        thickness = 3
-        )
+        ## To show the url in the img
+        # image = cv.putText(
+        # img = image,
+        # text = link,
+        # org = (200, 200),
+        # fontFace = cv.FONT_HERSHEY_DUPLEX,
+        # fontScale = 3.0,
+        # color = (0, 0, 0),
+        # thickness = 3
+        # )
 
         height, width, _ = image.shape
         ratio = height / width
@@ -71,6 +76,7 @@ def main():
 
     cv.destroyWindow(WINDOW_NAME)
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(main())
