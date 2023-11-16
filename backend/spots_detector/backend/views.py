@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
-from django.http import HttpResponse
-from .models import Image
 from .forms import ImageForm
 from .model import process_image_with_yolo
-from django.conf import settings
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from .serializers import ImageUploadSerializer  
+
 
 # Create your views here.
 @require_http_methods(["GET", "POST"])
@@ -24,3 +25,15 @@ def upload_image(request):
     return render(request, 'upload_image.html', {'form': form})
 
 
+class ImageUploadAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        serializer = ImageUploadSerializer(data=request.data)
+        if serializer.is_valid():
+            image = serializer.validated_data['image']
+            
+            # Processamento da imagem com YOLO
+            image_base64 = process_image_with_yolo(image)
+
+            # Retorna a imagem processada como resposta da API
+            return Response({'image_base64': image_base64})
+        return Response(serializer.errors, status=400)
