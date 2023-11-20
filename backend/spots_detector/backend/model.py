@@ -11,7 +11,7 @@ import base64
 def process_image_with_yolo(image_file):
     #print current working directory
     
-    model_path = os.path.join(settings.MODEL_ROOT, 'runs', 'detect', 'train6', 'weights', 'best.pt')
+    model_path = os.path.join(settings.MODEL_ROOT, 'runs', 'detect', 'train9', 'weights', 'best.pt')
     #model_path = 'backend/spots_detector/backend/yolo_model/runs/detect/train6/weights/best.pt'
     model = YOLO(model_path)  # Carregar um modelo customizado
     threshold = 0.1
@@ -30,7 +30,10 @@ def process_image_with_yolo(image_file):
         x1, y1, x2, y2, score, class_id = result
 
         if score > threshold:
-            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
+            if class_id == 0: # benigno
+                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
+            else: # maligno
+                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 4)
 
     _, buffer = cv2.imencode('.jpg', frame)
     image_base64 = base64.b64encode(buffer).decode()
