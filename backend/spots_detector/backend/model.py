@@ -30,10 +30,20 @@ def process_image_with_yolo(image_file):
         x1, y1, x2, y2, score, class_id = result
 
         if score > threshold:
-            if class_id == 0: # benigno
-                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 4)
-            else: # maligno
-                cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), (0, 0, 255), 4)
+            # Desenha o retângulo
+            color = (0, 255, 0) if class_id == 0 else (0, 0, 255)
+            cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 4)
+
+            # Calcula o tamanho do retângulo
+            rect_width = x2 - x1
+            rect_height = y2 - y1
+
+            # Ajusta o tamanho da fonte com base na largura do retângulo
+            font_scale = rect_width / 200  # Ajuste o denominador conforme necessário
+            font_scale = max(0.5, font_scale)  # Define um tamanho mínimo para a fonte
+
+            # Desenha o texto
+            cv2.putText(frame, f'Prob: {score:.2f}%', (int(x1 + 5), int(y2 - 10)), cv2.FONT_HERSHEY_SIMPLEX, font_scale, (0, 0, 0), 2)
 
     _, buffer = cv2.imencode('.jpg', frame)
     image_base64 = base64.b64encode(buffer).decode()
