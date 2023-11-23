@@ -71,7 +71,7 @@ def main():
             break
 
         if key == ord('y'):
-            output_path = os.path.join(output_dir, name)
+            output_path = os.path.join(output_dir, "1"+name)
             shutil.copy(input_path, output_path)
 
     cv.destroyWindow(WINDOW_NAME)

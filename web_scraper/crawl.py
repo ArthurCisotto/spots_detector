@@ -39,8 +39,15 @@ def main():
         # melasma
         # lentigines
         # seborrheic keratosis
+        # healthy dark spots
+        # pintas saudaveis na pele
+        # pintas benignas na pele
+        # sinais cutâneos saudáveis
+        # pintas inofensivas na pele
+        # manchas cutâneas inofensivas
+        # healthy melanocytic spots
 
-    google_crawler.crawl(keyword='melanoma', max_num=1000)
+    google_crawler.crawl(keyword='healthy melanocytic spots', max_num=1000)
 
     # Save the urls in a .txt
     with open('web_scraper/links.txt', 'w') as f:
