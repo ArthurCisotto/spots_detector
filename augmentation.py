@@ -30,7 +30,7 @@ image_path = 'cvat_data/images/carcinoma_1.jpg'
 annotations_path = 'cvat_data/labels/carcinoma_1.txt'
 
 # Pasta contendo as imagens
-input_folder = 'cvat_data/img'
+input_folder = 'cvat_data/images'
 # Pasta para salvar as imagens aumentadas
 output_folder = './imagens_aumentadas2'
 output_folder2 = './imagens_aumentadas2_txt'
@@ -53,7 +53,7 @@ for image_file in image_files:
      # Caminho completo para o arquivo de anotações correspondente
     annotations_file = os.path.splitext(image_file)[0] + '.txt'
     annotations_path = os.path.join(input_folder, annotations_file)
-    annotations_path = f'cvat_data/lab/{annotations_file}'
+    annotations_path = f'cvat_data/labels/{annotations_file}'
     print(annotations_path)
 
     # Leitura das bounding boxes
@@ -63,22 +63,27 @@ for image_file in image_files:
     transform = A.Compose([
         A.HorizontalFlip(p=0.5),
         A.RandomBrightnessContrast(p=0.2),
+        A.Rotate(limit=45, p=0.3),
+        A.VerticalFlip(p=0.5),
+        A.ElasticTransform(alpha=120, sigma=120 * 0.05, alpha_affine=120 * 0.03, p=0.3),
         # Adicione outras transformações conforme necessário
     ], bbox_params=A.BboxParams(format='yolo', label_fields=['category_id']))
 
-    # Aplicação das transformações
-    augmented_image, augmented_boxes = augment_data(input_image_path, bounding_boxes, transform)
-    # Salvar a imagem aumentada
-    output_image_path = os.path.join(output_folder, f'augmented_{image_file}')
-    cv2.imwrite(output_image_path, augmented_image)
+    for i in range(10) :
+        print("dentrooooo",i)
+        # Aplicação das transformações
+        augmented_image, augmented_boxes = augment_data(input_image_path, bounding_boxes, transform)
+        # Salvar a imagem aumentada
+        output_image_path = os.path.join(output_folder, f'augmented_{i}_{image_file}')
+        cv2.imwrite(output_image_path, augmented_image)
 
-    # Salvar as bounding boxes aumentadas em um formato YOLO
-    output_boxes_path = os.path.join(output_folder2, f'augmented_{annotations_file}')
-    with open(output_boxes_path, 'w') as file:
-        for box in augmented_boxes:
-            class_id = int(box[-1])
-            x_center, y_center, width, height = map(float, box[0:-1])
-            file.write(f"{class_id} {x_center} {y_center} {width} {height}\n")
+        # Salvar as bounding boxes aumentadas em um formato YOLO
+        output_boxes_path = os.path.join(output_folder2, f'augmented_{i}_{annotations_file}')
+        with open(output_boxes_path, 'w') as file:
+            for box in augmented_boxes:
+                class_id = int(box[-1])
+                x_center, y_center, width, height = map(float, box[0:-1])
+                file.write(f"{class_id} {x_center} {y_center} {width} {height}\n")
 # Salvar a imagem aumentada
 #output_path = './imagem_aumentada.jpg'
 #cv2.imwrite(output_path, augmented_image)
